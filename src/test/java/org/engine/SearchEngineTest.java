@@ -23,14 +23,14 @@ class SearchEngineTest {
     void emptyTest() {
         List<String> result = engine.search("", SearchStrategy.ALL);
 
-        assertThat(result.isEmpty());
+        assertThat(result).isEmpty();
     }
 
     @Test
     void noMatchTest() {
         List<String> result = engine.search("xyzzy", SearchStrategy.ANY);
 
-        assertThat(result.isEmpty());
+        assertThat(result).isEmpty();
     }
 
     @Test
@@ -45,7 +45,7 @@ class SearchEngineTest {
     void allStrategyNoMatchTest() {
         List<String> result = engine.search("harrington katie", SearchStrategy.ALL);
 
-        assertTrue(result.isEmpty());
+        assertThat(result).isEmpty();
     }
 
     @Test
@@ -82,7 +82,7 @@ class SearchEngineTest {
     void noneStrategyNoMatchTest() {
         List<String> result = engine.search("erick katie rene dwight myrtle", SearchStrategy.NONE);
 
-        assertThat(result.isEmpty());
+        assertThat(result).isEmpty();
     }
 
 }
