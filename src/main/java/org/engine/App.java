@@ -1,9 +1,12 @@
 package org.engine;
 
+import com.sun.tools.javac.Main;
+
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.*;
 
 public class App {
@@ -18,7 +21,13 @@ public class App {
             return;
         }
 
-        List<String> people = Files.readAllLines(Path.of(fileName));
+        InputStream input = Main.class.getClassLoader().getResourceAsStream(fileName);
+
+        if (input == null) {
+            throw new IOException("File not found: " + fileName);
+        }
+
+        List<String> people = new BufferedReader(new InputStreamReader(input)).lines().toList();
         SearchEngine engine = new SearchEngine(people);
 
         runMenu(people, engine);

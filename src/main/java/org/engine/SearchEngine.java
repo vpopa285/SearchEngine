@@ -64,7 +64,9 @@ public class SearchEngine {
 
         Set<Integer> result = new HashSet<>();
         for (int i = 0; i < data.size(); i++) {
-            if (!excluded.contains(i)) result.add(i);
+            if (!excluded.contains(i)) {
+                result.add(i);
+            }
         }
 
         return result;

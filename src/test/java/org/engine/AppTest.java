@@ -11,7 +11,8 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class AppTest {
 
@@ -45,7 +46,7 @@ public class AppTest {
 
     @Test
     void inexistentFileTest() {
-        assertThrows(IOException.class, () -> App.main("--data", "doesnt_exist.txt"));
+        assertThatThrownBy(() -> App.main("--data", "doesnt_exist.txt")).isInstanceOf(IOException.class);
     }
 
     @Test
@@ -53,7 +54,7 @@ public class AppTest {
         App.main("--data");
 
         String out = output.toString(StandardCharsets.UTF_8);
-        assertTrue(out.contains("No file provided."));
+        assertThat(out.contains("No file provided."));
     }
 
     @Test
@@ -62,10 +63,10 @@ public class AppTest {
 
         System.setIn(new ByteArrayInputStream(input.getBytes()));
 
-        App.main("--data", "data/test.txt");
+        App.main("--data", "text.txt");
 
         String out = output.toString(StandardCharsets.UTF_8);
-        assertTrue(out.contains("Bye!"));
+        assertThat(out.contains("Bye!"));
     }
 
     @ParameterizedTest
@@ -76,7 +77,7 @@ public class AppTest {
         App.runMenu(people, engine);
 
         String out = output.toString(StandardCharsets.UTF_8);
-        assertTrue(out.contains("Incorrect option! Try again."));
+        assertThat(out.contains("Incorrect option! Try again."));
     }
 
     @Test
@@ -88,7 +89,7 @@ public class AppTest {
         App.runMenu(people, engine);
 
         String out = output.toString(StandardCharsets.UTF_8);
-        assertTrue(out.contains("Unknown strategy. Use ALL, ANY, or NONE."));
+        assertThat(out.contains("Unknown strategy. Use ALL, ANY, or NONE."));
     }
 
     @ParameterizedTest
@@ -99,7 +100,7 @@ public class AppTest {
         App.runMenu(people, engine);
 
         String out = output.toString(StandardCharsets.UTF_8);
-        assertFalse(out.contains("Unknown strategy. Use ALL, ANY, or NONE."));
+        assertThat(out.contains("Unknown strategy. Use ALL, ANY, or NONE.")).isFalse();
     }
 
     @ParameterizedTest
@@ -136,7 +137,7 @@ public class AppTest {
         App.runMenu(people, engine);
 
         String out = output.toString(StandardCharsets.UTF_8);
-        assertTrue(out.contains(waitedOutput));
+        assertThat(out.contains(waitedOutput));
     }
 
     @Test
@@ -148,7 +149,7 @@ public class AppTest {
 
         String out = output.toString(StandardCharsets.UTF_8);
 
-        assertTrue(out.contains("""
+        assertThat(out.contains("""
             === List of people ===
             Dwight Joseph djo@gmail.com
             Rene Webb webb@gmail.com
